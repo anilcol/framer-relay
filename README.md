@@ -39,5 +39,6 @@ Der Server sucht automatisch nach Feldern mit diesen Namen (Groß-/Kleinschreibu
 - Meta Description / Excerpt / Summary (optional)
 - Sources / Quellen (optional)
 - Published Date / Date / Veröffentlicht (optional)
+- Image / Bild / Titelbild / Cover Image / Cover (optional, Feldtyp: Image)
 
 Falls deine Collection-Felder anders heißen, entweder in Framer umbenennen oder mir Bescheid geben, dann passe ich `server.js` an.
