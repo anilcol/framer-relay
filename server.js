@@ -33,9 +33,9 @@ app.use((req, res, next) => {
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
-// Body: { title, body, metaDescription?, sourcesMarkdown?, slug? }
+// Body: { title, body, metaDescription?, sourcesMarkdown?, slug?, imageUrl? }
 app.post("/publish-article", async (req, res) => {
-  const { title, body, metaDescription, sourcesMarkdown, slug } = req.body || {};
+  const { title, body, metaDescription, sourcesMarkdown, slug, imageUrl } = req.body || {};
 
   if (!title || !body) {
     return res.status(400).json({ error: "title and body are required" });
@@ -67,6 +67,7 @@ app.post("/publish-article", async (req, res) => {
     const metaField = findField(["meta description", "metadescription", "excerpt", "summary"]);
     const sourcesField = findField(["sources", "quellen"]);
     const dateField = findField(["published date", "date", "veröffentlicht"]);
+    const imageField = findField(["image", "bild", "titelbild", "cover image", "cover"]);
 
     if (!titleField || !contentField) {
       return res.status(500).json({
@@ -88,6 +89,9 @@ app.post("/publish-article", async (req, res) => {
     }
     if (dateField) {
       fieldData[dateField.id] = { value: new Date().toISOString() };
+    }
+    if (imageField && imageUrl) {
+      fieldData[imageField.id] = { value: { url: imageUrl } };
     }
 
     const itemSlug = slug ? slugify(slug) : slugify(title);
